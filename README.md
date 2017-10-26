@@ -33,106 +33,178 @@ Goal : Improve the performance of your system
 
 ### Persiapan Database ###
 
-1. Install MySQL Server
+* Buat database baru pada MySQL (misal : spring_cahce_demo)
 
-2. Login ke MySQL Server
+### Spring Boot Initializr ###
 
-    ```
-    mysql -u root -p
-    ```
+1. Browse ke [https://start.spring.io/] (https://start.spring.io/)
 
-3. Buat user untuk mengakses database
+2. Lengkapi Project Metadata
 
-    ```
-    grant all on stack2015.* to stack2015@localhost identified by 'stack2015';
-    ```
-
-4. Buat databasenya
-
-    ```
-    create database stack2015;
-    ```
-
-### Authorization Server ###
-
-1. Masuk ke folder authorization-server
-
-    ```
-    cd authorization-server
-    ```
-
-2. Jalankan aplikasinya
-
-    ```
-    mvn clean spring-boot:run
-    ```
-
-3. URL yang bisa diakses :
-
-    * Login : [http://localhost:10000/login]
-    * User Info : [http://localhost:10000/uaa/me]
-    * Public Key untuk verifikasi token JWT : [http://localhost:10000/uaa/oauth/token_key]
-    * Authorization Grant : [http://localhost:10000/uaa/oauth/authorize]
-
-### Resource Server ###
-
-1. Masuk ke folder resource-server
-
-    ```
-    cd resource-server
-    ```
-
-2. Jalankan aplikasi
-
-    ```
-    mvn clean spring-boot:run
-    ```
-
-3. Browse ke [http://localhost:10001/api/halo?nama=endy](http://localhost:10002/api/halo?nama=endy)
-
-### UI Web dengan Angular ###
-
-1. Masuk ke folder ui-web
-
-    ```
-    cd ui-web
-    ```
-
-2. Jalankan aplikasi
-
-    ```
-    grunt serve
-    ```
-
-3. Browse ke [http://localhost:10002/]
-
-4. Klik Sign In, anda akan disuruh login di `authorization-server`
-5. Login dengan username berikut
+    * Group
     
-    * User Admin : endy/123
-    * User Staff : maya/456
+    ```
+    com.sheringsession.balicamp.springcache    
+    ```
+    
+    * Artifact
+    ```
+    demo
+    ```
+   
+    * Dependencies
+    ```
+    Web, JPA, Cache, MySQL (Optional tergantung DB yang digunakan)
+    ```
+   
+3. Generate Project
 
-6. Buka menu Halo. Menu ini bisa dijalankan oleh user dengan role `admin`, tapi tidak bisa dijalankan oleh user `staff`.
+4. Download dan import pada IDE masing-masing
 
-### Packaging modul UI Web ###
+### Build with Maven ###
 
-Modul ini dibungkus dengan aplikasi Spring Boot, sehingga bisa dideploy dengan mudah ke Heroku atau Openshift. Karena sama dengan aplikasi Spring Boot biasa, dia bisa juga dibundel menjadi `*.war`.
-
-Berikut cara menjalankannya menjadi aplikasi Spring Boot
-
-1. Compile dulu seluruh file JavaScript, CSS, dan HTML menggunakan Yeoman
+* ```pom.xml```
 
     ```
-    cd ui-web
-    grunt
+    <dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId> 
+			<scope>runtime</scope> 
+        </dependency>
+    </dependencies>
     ```
 
-2. Grunt akan melakukan proses kompilasi, hasilnya diletakkan di folder `src/main/resources/static`
+* ```applicatioin.properties```
 
-3. Aplikasi Spring Boot bisa dijalankan dengan cara biasa
+    ```
+    # Setting datasource mysql
+    spring.datasource.url=jdbc:mysql://localhost/spring_cahce_demo
+    spring.datasource.username=disesuaikan
+    spring.datasource.password=disesuaikan
+    spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+    
+    # Hibernate properties
+    spring.jpa.hibernate.ddl-auto=update
+    spring.jpa.show-sql=true
+    spring.jpa.properties.hibernate.format_sql=true
+    
+    spring.datasource.max-wait=40000
+    spring.datasource.test-on-borrow=true
+    spring.datasource.validation-query=SELECT 1
+    
+    spring.jackson.serialization.indent-output=true
+    ```
+
+### Build with your IDE ###
+
+1. Buat Enity misal Product
+
+    ```
+    @SuppressWarnings("serial")
+    @Data @Entity @Table
+    public class Product implements Serializable{
+        @Id @GeneratedValue(generator="uuid") @GenericGenerator(name="uuid", strategy= "uuid2")
+        private String id;
+        private String code;
+        private String name;
+        private BigDecimal amount;
+        private Boolean outOfStock;
+    }
+    ```
+
+2. Jalankan aplikasi
 
     ```
     mvn clean spring-boot:run
     ```
+    Cek tabel Product otomatis akan terbentuk dalam database
 
-4. Browse ke tempat yang sama, yaitu [http://localhost:10002]
+3. Buat DTO 
+
+    ```
+    public interface ProductDao extends PagingAndSortingRepository<Product, String>{
+        public Product findByName(String name);
+        public Product findByCode(String code);
+    }
+    ```
+
+4. Buat Service 
+
+    ```
+    public class ProductService {
+        private static final Logger LOG = LoggerFactory.getLogger(ProductService.class);
+        @Autowired private ProductDao productDao;
+    
+        public Product findProductByName(String name) {
+            LOG.info("### Call service product by name {}", name);
+            return productDao.findByName(name);
+        }
+        
+        public Product findProductByCode(String code) {
+            LOG.info("### Call service product by code {}", code);
+            return productDao.findByCode(code);
+        }
+        
+        public Product updateProduct(String id, String name) {
+            LOG.info("### Call service put product id {}, name {}", id, name);
+            Product p = productDao.findOne(id);
+            p.setName(name);
+            productDao.save(p);
+            return p;
+        }
+        
+        public void deleteProduct(String name) {
+            LOG.info("### Call service evict product name {}", name);
+        }
+    }
+    ```
+
+4. Buat Controller 
+
+    ```
+    @RestController @RequestMapping("/spring-cache/product")
+    public class ProductController {
+        private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
+        @Autowired private ProductService productService;
+
+        @GetMapping("/getByName/{name}")
+        public Product getDataProductByName(@PathVariable String name) {
+            LOG.info("## product controller getByName called here!!");
+            return productService.findProductByName(name);
+        }
+
+        @GetMapping("/getByCode/{code}")
+        public Product getDataProductByCode(@PathVariable String code) {
+            LOG.info("## product controller getByCode called here!!");
+            return productService.findProductByCode(code);
+        }
+
+        @GetMapping("/updateProduct/{id}/{name}")
+        public Product updateDataProduct(@PathVariable String id, @PathVariable String name) {
+            LOG.info("## product controller put product called here!!");
+            return productService.updateProduct(id, name); 
+        }
+
+        @GetMapping("/deleteProduct/name/{name}")
+        public String deleteDataProduct(@PathVariable String name) {
+            LOG.info("## product controller delete product called here!!");
+            productService.deleteProduct(name);
+            return "Delete Product Cache berhasil !!!";
+        }
+    }
+    ```
+    
+5. Jalankan menggunakan maven dan browse ke [http://localhost:8080/]
