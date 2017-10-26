@@ -416,8 +416,8 @@ Mencoba salah satu Provider Spring Cache : [https://memorynotfound.com/spring-bo
     ```
     @GetMapping("/getByName/{name}")
 	public Product getDataProductByName(@PathVariable String name) {
-		LOG.info("## product controller getByName called here!!");
+		. . .
 		LOG.info("PROVIDER YANG DIGUNAKAN : {}",cacheManager.getClass().getName());
-		return productService.findProductByName(name);
+		+ + +
 	}
     ```
