@@ -378,6 +378,11 @@ Mencoba salah satu Provider Spring Cache : [https://memorynotfound.com/spring-bo
         <artifactId>hazelcast-spring</artifactId>
         <version>3.8.6</version>
     </dependency>
+    <dependency>
+        <groupId>com.hazelcast</groupId>
+        <artifactId>hazelcast</artifactId>
+        <version>3.8.6</version>
+    </dependency>
     ```
 2. Membuat configurasi class Hazelcast
 
@@ -416,8 +421,16 @@ Mencoba salah satu Provider Spring Cache : [https://memorynotfound.com/spring-bo
     ```
     @GetMapping("/getByName/{name}")
 	public Product getDataProductByName(@PathVariable String name) {
-		. . .
+		...
 		LOG.info("PROVIDER YANG DIGUNAKAN : {}",cacheManager.getClass().getName());
-		+ + +
+		...
 	}
+    ```
+    
+5. Implement Serializable class entity
+    
+    ```
+    public class Product implements Serializable{
+        ...
+    }
     ```
