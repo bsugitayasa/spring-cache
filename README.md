@@ -42,19 +42,19 @@ Roadmap
 
 2. Lengkapi Project Metadata
 
-* Group
+    Group
     
     ```
     com.sheringsession.balicamp.springcache    
     ```
 
-* Artifact
+    Artifact
     
     ```
     demo
     ```
    
-* Dependencies
+    Dependencies
     
     ```
     Web, JPA, Cache, MySQL (Optional tergantung DB yang digunakan)
