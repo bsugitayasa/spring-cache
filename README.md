@@ -67,9 +67,8 @@ Roadmap
 
 ### Build with Maven ###
 
-pom.xml
-
-
+1. Pastikan pom.xml terdapat dependency berikut
+    
     ```
     <dependencies>
 		<dependency>
@@ -92,8 +91,7 @@ pom.xml
     </dependencies>
     ```
 
-applicatioin.properties
-
+2. applicatioin.properties untuk konfigurasi database source, hibernate dll
 
     ```
     spring.datasource.url=jdbc:mysql://localhost/spring_cahce_demo
