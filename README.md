@@ -282,7 +282,8 @@ Roadmap
     
 ### Penggunaan @CachePut ###
 
-Tambahkan anotasi pada salah satu service berikut
+* Tambahkan anotasi pada salah satu service berikut
+
 
     ```
     @CachePut(cacheNames="products", key = "#name")
@@ -297,7 +298,8 @@ Tambahkan anotasi pada salah satu service berikut
 
 ### Penggunaan @CacheEvict ###
 
-Tambahkan anotasi pada salah satu service berikut
+* Tambahkan anotasi pada salah satu service berikut
+
 
     ```
     @CacheEvict(cacheNames="products", key = "#name")
@@ -306,7 +308,8 @@ Tambahkan anotasi pada salah satu service berikut
 	}
     ```
 
-Untuk semua cache, penggunaan `@CacheEvict` dengan mengaktifkan parameter `allEntries=true` 
+* Untuk semua cache, penggunaan `@CacheEvict` dengan mengaktifkan parameter `allEntries=true` 
+
 
     ```
     @CacheEvict(cacheNames="products", allEntries = true)
@@ -317,7 +320,7 @@ Untuk semua cache, penggunaan `@CacheEvict` dengan mengaktifkan parameter `allEn
 
 ### Penggunaan @CacheConfig ###
 
-Before
+* Before
     
     ```
     @Service
@@ -327,7 +330,7 @@ Before
     }
     ```
 
-After
+* After
 
     ```
     @Service
@@ -338,7 +341,7 @@ After
     }
     ```
 
-Hapus semua cacheNames yang didaaftarkan pada class method:
+* Hapus semua cacheNames yang didaaftarkan pada class method:
 
     ```
     cacheNames="products"
