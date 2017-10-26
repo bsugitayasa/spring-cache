@@ -41,18 +41,20 @@ Roadmap
 
 2. Lengkapi Project Metadata
 
-    * Group
+* Group
     
     ```
     com.sheringsession.balicamp.springcache    
     ```
+
+* Artifact
     
-    * Artifact
     ```
     demo
     ```
    
-    * Dependencies
+* Dependencies
+    
     ```
     Web, JPA, Cache, MySQL (Optional tergantung DB yang digunakan)
     ```
@@ -63,7 +65,8 @@ Roadmap
 
 ### Build with Maven ###
 
-* ```pom.xml```
+* pom.xml
+
 
     ```
     <dependencies>
@@ -87,16 +90,15 @@ Roadmap
     </dependencies>
     ```
 
-* ```applicatioin.properties```
+* applicatioin.properties
+
 
     ```
-    # Setting datasource mysql
     spring.datasource.url=jdbc:mysql://localhost/spring_cahce_demo
     spring.datasource.username=disesuaikan
     spring.datasource.password=disesuaikan
     spring.datasource.driver-class-name=com.mysql.jdbc.Driver
     
-    # Hibernate properties
     spring.jpa.hibernate.ddl-auto=update
     spring.jpa.show-sql=true
     spring.jpa.properties.hibernate.format_sql=true
