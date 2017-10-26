@@ -218,7 +218,7 @@ Roadmap
 
 ## GO TO LAB... ##
 
-### Penggunaan @EnableCaching ###
+### PENTING!!! @EnableCaching ###
 
 1. Tambahkan anotasi `@EnableCaching` pada root/main Class Application Spring Boot
 
