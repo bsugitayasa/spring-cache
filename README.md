@@ -14,11 +14,11 @@ Roadmap
 * Data original dari duplikasi memiliki akses yang mahal
     * waktu
     * resource processor
-* Spring Framework telah menyediakan cara untuk melakukan cache pada Spring Application existing
-
 * Arsitektur sederhana
 
 ![Arsitektur](img/cache-diagram.jpg)
+
+* Spring Framework telah menyediakan cara untuk melakukan cache pada Spring Application existing
 
 `Goal : Improve the performance of your system`
 
