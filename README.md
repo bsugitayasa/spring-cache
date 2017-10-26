@@ -223,7 +223,7 @@ Roadmap
 1. Tambahkan `@Cacheable(key = "#name")` pada salah satu method class ProductService
 
     ```
-    @Cacheable(key = "#name")
+    @Cacheable("products")
 	public Product findProductByName(String name) {
 		LOG.info("### Call service product by name {}", name);
 		return productDao.findByName(name);
