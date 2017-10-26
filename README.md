@@ -244,42 +244,42 @@ Roadmap
 
     ```
     @Cacheable("products")
-	public Product findProductByCode(String name) {
+	public Product findProductByCode(String code) {
 		LOG.info("### Call service product by name {}", name);
 		return productDao.findByName(name);
 	}
     ```
     
-2. Tambahkan `@Cacheable(cacheNames="products", key = "#name")` pada salah satu method class ProductService
+2. Tambahkan `@Cacheable(cacheNames="products", key = "#code")` pada salah satu method class ProductService
 
     ```
-    @Cacheable(cacheNames="products", key = "#name")
-	public Product findProductByCode(String name) {
-		LOG.info("### Call service product by name {}", name);
-		return productDao.findByName(name);
-	}
-    ```
-
-3. Tambahkan `@Cacheable(cacheNames="products", key = "#name", condition = "#name=='Product 002')` pada salah satu method class ProductService
-
-    ```
-    @Cacheable(cacheNames="products", key = "#name", condition = "#name=='Product 002'")
-	public Product findProductByCode(String name) {
-		LOG.info("### Call service product by name {}", name);
-		return productDao.findByName(name);
-	}
-    ```
-
-4. Tambahkan `@Cacheable(cacheNames="products", key = "#name", unless = "#result.name=='Product p004')` pada salah satu method class ProductService
-
-    ```
-    @Cacheable(cacheNames="products", key = "#code", unless = "#result.name=='Product p004'")
+    @Cacheable(cacheNames = "products", key = "#code")
 	public Product findProductByCode(String code) {
 		LOG.info("### Call service product by code {}", code);
 		return productDao.findByCode(code);
 	}
     ```
 
+3. Tambahkan `@Cacheable(cacheNames = "products", key = "#code", condition = "#code!='p001'")` pada salah satu method class ProductService
+
+    ```
+    @Cacheable(cacheNames = "products", key = "#code", condition = "#code!='p001'")
+	public Product findProductByCode(String code) {
+		LOG.info("### Call service product by code {}", code);
+		return productDao.findByCode(code);
+	}
+    ```
+
+4. Tambahkan `@Cacheable(cacheNames = "products", key = "#name", unless = "#result.code == 'p001'")` pada salah satu method class ProductService
+
+    ```
+    @Cacheable(cacheNames = "products", key = "#name", unless = "#result.code == 'p001'")
+	public Product findProductByName(String name) {
+		LOG.info("### Call service product by name {}", name);
+		return productDao.findByName(name);
+	}
+    ```
+    
 ### Penggunaan @CachePut ###
 
 Tambahkan anotasi pada salah satu service berikut
@@ -301,6 +301,15 @@ Tambahkan anotasi pada salah satu service berikut
 
     ```
     @CacheEvict(cacheNames="products", key = "#name")
+	public void deleteProduct(String name) {
+		LOG.info("### Call service evict product name {}", name);
+	}
+    ```
+
+Untuk semua cache, penggunaan `@CacheEvict` dengan mengaktifkan parameter `allEntries=true` 
+
+    ```
+    @CacheEvict(cacheNames="products", allEntries = true)
 	public void deleteProduct(String name) {
 		LOG.info("### Call service evict product name {}", name);
 	}
@@ -334,4 +343,81 @@ remove all selection code on each method class
 
     ```
     cacheNames="products"
+    ```
+    
+    
+## HOW NEXT ? ##
+
+### Cache Providers ###
+
+Referensi : [https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-caching.html] (https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-caching.html)
+
+    * Generic
+    * JCache (JSR-107)
+    * EhCache 2.x
+    * Hazelcast
+    * Infinispan
+    * Couchbase
+    * Redis
+    * Caffeine
+    * Guava (deprecated)
+    * Simple
+    * None
+    
+GOTO Example. . .
+
+### Hazelcast Caching ###
+
+Mencoba salah satu Provider Spring Cache : [https://memorynotfound.com/spring-boot-hazelcast-caching-example-configuration/] (https://memorynotfound.com/spring-boot-hazelcast-caching-example-configuration/) 
+
+1. Menambahkan maven dependency pada `pom.xml`
+
+    ```
+    <dependency>
+        <groupId>com.hazelcast</groupId>
+        <artifactId>hazelcast-spring</artifactId>
+        <version>3.8.6</version>
+    </dependency>
+    ```
+2. Membuat configurasi class Hazelcast
+
+    ```
+    @Configuration
+    public class HazelcastConfig {
+        @Bean
+        public Config haselcastConfig() {
+            return new Config()
+                    .setInstanceName("hazelcast-instance")
+                    .addMapConfig(
+                            new MapConfig()
+                                .setName("products")
+                                .setMaxSizeConfig(
+                                    new MaxSizeConfig(
+                                            200, 
+                                            MaxSizeConfig.MaxSizePolicy.FREE_HEAP_SIZE
+                                            )
+                            )
+                            .setEvictionPolicy(EvictionPolicy.LRU)
+                            .setTimeToLiveSeconds(20)
+                    );
+
+        }
+    }
+    ```
+
+3. Init `CacheManager` pada Controller
+
+    ```
+    @Autowired private CacheManager cacheManager;
+    ```
+
+4. Contoh test penggunaan cache yang telah di provide dengan hazelcast
+
+    ```
+    @GetMapping("/getByName/{name}")
+	public Product getDataProductByName(@PathVariable String name) {
+		LOG.info("## product controller getByName called here!!");
+		LOG.info("PROVIDER YANG DIGUNAKAN : {}",cacheManager.getClass().getName());
+		return productService.findProductByName(name);
+	}
     ```
