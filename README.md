@@ -214,4 +214,85 @@ Roadmap
     }
     ```
     
-5. Jalankan menggunakan maven dan browse ke [http://localhost:8080/]
+5. Jalankan menggunakan maven dan browse ke [http://localhost:8080/getByName/foo]
+
+## GO TO LAB... ##
+
+### Penggunaan @Cacheable ###
+
+1. Tambahkan `@Cacheable(key = "#name")` pada salah satu method class ProductService
+
+    ```
+    @Cacheable(key = "#name")
+	public Product findProductByName(String name) {
+		LOG.info("### Call service product by name {}", name);
+		return productDao.findByName(name);
+	}
+    ```
+    
+2. Tambahkan `@Cacheable(key = "#name", condition = "#name=='Product 002')` pada salah satu method class ProductService
+
+    ```
+    @Cacheable(key = "#name", condition = "#name=='Product 002'")
+	public Product findProductByName(String name) {
+		LOG.info("### Call service product by name {}", name);
+		return productDao.findByName(name);
+	}
+    ```
+
+3. Tambahkan `@Cacheable(key = "#name", unless = "#result.name=='Product p004')` pada salah satu method class ProductService
+
+    ```
+    @Cacheable(key = "#code"), unless = "#result.name=='Product p004'")
+	public Product findProductByCode(String code) {
+		LOG.info("### Call service product by code {}", code);
+		return productDao.findByCode(code);
+	}
+    ```
+
+### Penggunaan @CachePut ###
+
+    ```
+    @CachePut(key = "#name")
+	public Product updateProduct(String id, String name) {
+		LOG.info("### Call service put product id {}, name {}", id, name);
+		Product p = productDao.findOne(id);
+		p.setName(name);
+		productDao.save(p);
+		return p;
+	}
+    ```
+
+### Penggunaan @CacheEvict ###
+
+    ```
+    @CacheEvict(key = "#name")
+	public void deleteProduct(String name) {
+		LOG.info("### Call service evict product name {}", name);
+	}
+    ```
+
+### Penggunaan @CacheConfig ###
+
+Before
+    
+    ```
+    @Service
+    @CacheConfig(cacheNames = "products")
+    public class ProductService {
+        ...
+        ...
+    }
+    ```
+
+After
+
+    ```
+    @Service
+    @CacheConfig(cacheNames = "products")
+    public class ProductService {
+        ...
+        ...
+    }
+    ```
+    
