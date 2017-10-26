@@ -61,7 +61,7 @@ Roadmap
     Dependencies
     
     ```
-    Web, JPA, Cache, MySQL (Optional tergantung DB yang digunakan)
+    Web, JPA, Cache, Lombok, MySQL (Optional tergantung DB yang digunakan)
     ```
    
 3. Generate Project
@@ -217,6 +217,21 @@ Roadmap
 5. Jalankan menggunakan maven dan browse ke [http://localhost:8080/getByName/foo]
 
 ## GO TO LAB... ##
+
+### Penggunaan @EnableCaching ###
+
+1. Tambahkan anotasi `@EnableCaching` pada root/main Class Application Spring Boot
+
+    ```
+    @SpringBootApplication
+    @EnableCaching
+    public class DemoApplication {
+
+        public static void main(String[] args) {
+            SpringApplication.run(DemoApplication.class, args);
+        }
+    }
+    ```
 
 ### Penggunaan @Cacheable ###
 
