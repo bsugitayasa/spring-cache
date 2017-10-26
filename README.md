@@ -220,27 +220,37 @@ Roadmap
 
 ### Penggunaan @Cacheable ###
 
-1. Tambahkan `@Cacheable(key = "#name")` pada salah satu method class ProductService
+1. Tambahkan `@Cacheable("products")` pada salah satu method class ProductService
 
     ```
     @Cacheable("products")
-	public Product findProductByName(String name) {
+	public Product findProductByCode(String name) {
 		LOG.info("### Call service product by name {}", name);
 		return productDao.findByName(name);
 	}
     ```
     
-2. Tambahkan `@Cacheable(key = "#name", condition = "#name=='Product 002')` pada salah satu method class ProductService
+2. Tambahkan `@Cacheable(key = "#name")` pada salah satu method class ProductService
 
     ```
-    @Cacheable(key = "#name", condition = "#name=='Product 002'")
-	public Product findProductByName(String name) {
+    @Cacheable(key = "#name")
+	public Product findProductByCode(String name) {
 		LOG.info("### Call service product by name {}", name);
 		return productDao.findByName(name);
 	}
     ```
 
-3. Tambahkan `@Cacheable(key = "#name", unless = "#result.name=='Product p004')` pada salah satu method class ProductService
+3. Tambahkan `@Cacheable(key = "#name", condition = "#name=='Product 002')` pada salah satu method class ProductService
+
+    ```
+    @Cacheable(key = "#name", condition = "#name=='Product 002'")
+	public Product findProductByCode(String name) {
+		LOG.info("### Call service product by name {}", name);
+		return productDao.findByName(name);
+	}
+    ```
+
+4. Tambahkan `@Cacheable(key = "#name", unless = "#result.name=='Product p004')` pada salah satu method class ProductService
 
     ```
     @Cacheable(key = "#code"), unless = "#result.name=='Product p004'")
