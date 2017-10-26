@@ -92,6 +92,11 @@ Roadmap
             <artifactId>mysql-connector-java</artifactId> 
 			<scope>runtime</scope> 
         </dependency>
+        <dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
     </dependencies>
     ```
 
