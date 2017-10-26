@@ -16,6 +16,10 @@ Roadmap
     * resource processor
 * Spring Framework telah menyediakan cara untuk melakukan cache pada Spring Application existing
 
+* Arsitektur sederhana
+
+![Arsitektur](img/cache-diagram.jpg)
+
 `Goal : Improve the performance of your system`
 
 ### Enable Caching ###
