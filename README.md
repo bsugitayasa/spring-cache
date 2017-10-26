@@ -221,7 +221,7 @@ Roadmap
     
 5. Jalankan menggunakan maven dan browse ke [http://localhost:8080/getByName/foo]
 
-## GO TO LAB... ##
+## GO TO LAB ... ##
 
 ### PENTING!!! @EnableCaching ###
 
@@ -321,7 +321,6 @@ Before
     
     ```
     @Service
-    @CacheConfig(cacheNames = "products")
     public class ProductService {
         ...
         ...
@@ -339,7 +338,7 @@ After
     }
     ```
 
-remove all selection code on each method class
+Hapus semua cacheNames yang didaaftarkan pada class method:
 
     ```
     cacheNames="products"
@@ -350,7 +349,7 @@ remove all selection code on each method class
 
 ### Cache Providers ###
 
-Referensi : [https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-caching.html] (https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-caching.html)
+* Referensi : [https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-caching.html] (https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-caching.html)
 
     * Generic
     * JCache (JSR-107)
@@ -371,6 +370,7 @@ GOTO Example. . .
 Mencoba salah satu Provider Spring Cache : [https://memorynotfound.com/spring-boot-hazelcast-caching-example-configuration/] (https://memorynotfound.com/spring-boot-hazelcast-caching-example-configuration/) 
 
 1. Menambahkan maven dependency pada `pom.xml`
+
 
     ```
     <dependency>
