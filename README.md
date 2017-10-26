@@ -67,7 +67,7 @@ Roadmap
 
 ### Build with Maven ###
 
-    pom.xml
+pom.xml
 
 
     ```
@@ -92,7 +92,7 @@ Roadmap
     </dependencies>
     ```
 
-    applicatioin.properties
+applicatioin.properties
 
 
     ```
