@@ -245,30 +245,30 @@ Roadmap
 	}
     ```
     
-2. Tambahkan `@Cacheable(key = "#name")` pada salah satu method class ProductService
+2. Tambahkan `@Cacheable(cacheNames="products", key = "#name")` pada salah satu method class ProductService
 
     ```
-    @Cacheable(key = "#name")
+    @Cacheable(cacheNames="products", key = "#name")
 	public Product findProductByCode(String name) {
 		LOG.info("### Call service product by name {}", name);
 		return productDao.findByName(name);
 	}
     ```
 
-3. Tambahkan `@Cacheable(key = "#name", condition = "#name=='Product 002')` pada salah satu method class ProductService
+3. Tambahkan `@Cacheable(cacheNames="products", key = "#name", condition = "#name=='Product 002')` pada salah satu method class ProductService
 
     ```
-    @Cacheable(key = "#name", condition = "#name=='Product 002'")
+    @Cacheable(cacheNames="products", key = "#name", condition = "#name=='Product 002'")
 	public Product findProductByCode(String name) {
 		LOG.info("### Call service product by name {}", name);
 		return productDao.findByName(name);
 	}
     ```
 
-4. Tambahkan `@Cacheable(key = "#name", unless = "#result.name=='Product p004')` pada salah satu method class ProductService
+4. Tambahkan `@Cacheable(cacheNames="products", key = "#name", unless = "#result.name=='Product p004')` pada salah satu method class ProductService
 
     ```
-    @Cacheable(key = "#code"), unless = "#result.name=='Product p004'")
+    @Cacheable(cacheNames="products", key = "#code", unless = "#result.name=='Product p004'")
 	public Product findProductByCode(String code) {
 		LOG.info("### Call service product by code {}", code);
 		return productDao.findByCode(code);
@@ -277,8 +277,10 @@ Roadmap
 
 ### Penggunaan @CachePut ###
 
+Tambahkan anotasi pada salah satu service berikut
+
     ```
-    @CachePut(key = "#name")
+    @CachePut(cacheNames="products", key = "#name")
 	public Product updateProduct(String id, String name) {
 		LOG.info("### Call service put product id {}, name {}", id, name);
 		Product p = productDao.findOne(id);
@@ -290,8 +292,10 @@ Roadmap
 
 ### Penggunaan @CacheEvict ###
 
+Tambahkan anotasi pada salah satu service berikut
+
     ```
-    @CacheEvict(key = "#name")
+    @CacheEvict(cacheNames="products", key = "#name")
 	public void deleteProduct(String name) {
 		LOG.info("### Call service evict product name {}", name);
 	}
@@ -320,4 +324,9 @@ After
         ...
     }
     ```
-    
+
+remove all selection code on each method class
+
+    ```
+    cacheNames="products"
+    ```
