@@ -135,7 +135,7 @@ Roadmap
     ```
     Cek tabel Product otomatis akan terbentuk dalam database
 
-3. Buat DTO 
+3. Buat DAO `ProductDao` 
 
     ```
     public interface ProductDao extends PagingAndSortingRepository<Product, String>{
@@ -144,7 +144,7 @@ Roadmap
     }
     ```
 
-4. Buat Service 
+4. Buat Service `ProductService`
 
     ```
     public class ProductService {
@@ -175,7 +175,7 @@ Roadmap
     }
     ```
 
-4. Buat Controller 
+4. Buat Controller `ProductController`
 
     ```
     @RestController @RequestMapping("/spring-cache/product")
