@@ -35,6 +35,7 @@ Roadmap
 
 * Buat database baru pada MySQL (misal : spring_cahce_demo)
 
+
 ### Spring Boot Initializr ###
 
 1. Browse ke [https://start.spring.io/] (https://start.spring.io/)
@@ -63,9 +64,10 @@ Roadmap
 
 4. Download dan import pada IDE masing-masing
 
+
 ### Build with Maven ###
 
-* pom.xml
+    pom.xml
 
 
     ```
@@ -90,7 +92,7 @@ Roadmap
     </dependencies>
     ```
 
-* applicatioin.properties
+    applicatioin.properties
 
 
     ```
@@ -109,6 +111,7 @@ Roadmap
     
     spring.jackson.serialization.indent-output=true
     ```
+
 
 ### Build with your IDE ###
 
