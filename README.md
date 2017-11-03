@@ -24,7 +24,7 @@ Roadmap
 
 ### Enable Caching ###
 
-* Simply adding the ```@EnableCaching```
+* Hanya dengan menambahkan annotasi `@EnableCaching` pada main class spring boot application
 
 ### Caching With Annotations ###
 
