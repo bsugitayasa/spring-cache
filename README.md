@@ -122,7 +122,7 @@ Roadmap
 
 ### Build with your IDE ###
 
-1. Buat Enity misal Product
+1. Buat Entity misal Product
 
     ```
     @SuppressWarnings("serial")
