@@ -48,7 +48,7 @@ Roadmap
 
     Group
     
-    ```
+    ```java
     com.sheringsession.balicamp.springcache    
     ```
 
@@ -60,7 +60,7 @@ Roadmap
    
     Dependencies
     
-    ```
+    ```java
     Web, JPA, Cache, Lombok, MySQL (Optional tergantung DB yang digunakan)
     ```
    
@@ -73,7 +73,7 @@ Roadmap
 
 1. Pastikan `pom.xml` terdapat dependency berikut
     
-    ```
+    ```java
     <dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -102,7 +102,7 @@ Roadmap
 
 2. `applicatioin.properties` untuk konfigurasi database source, hibernate dll
 
-    ```
+    ```java
     spring.datasource.url=jdbc:mysql://localhost/spring_cahce_demo
     spring.datasource.username=disesuaikan
     spring.datasource.password=disesuaikan
@@ -124,7 +124,7 @@ Roadmap
 
 1. Buat Entity misal Product
 
-    ```
+    ```java
     @SuppressWarnings("serial")
     @Data @Entity @Table
     public class Product implements Serializable{
@@ -139,14 +139,14 @@ Roadmap
 
 2. Jalankan aplikasi
 
-    ```
+    ```java
     mvn clean spring-boot:run
     ```
     Cek tabel Product otomatis akan terbentuk dalam database
 
 3. Buat DAO `ProductDao` 
 
-    ```
+    ```java
     public interface ProductDao extends PagingAndSortingRepository<Product, String>{
         public Product findByName(String name);
         public Product findByCode(String code);
@@ -155,7 +155,7 @@ Roadmap
 
 4. Buat Service `ProductService`
 
-    ```
+    ```java
     public class ProductService {
         private static final Logger LOG = LoggerFactory.getLogger(ProductService.class);
         @Autowired private ProductDao productDao;
@@ -186,7 +186,7 @@ Roadmap
 
 4. Buat Controller `ProductController`
 
-    ```
+    ```java
     @RestController @RequestMapping("/spring-cache/product")
     public class ProductController {
         private static final Logger LOG = LoggerFactory.getLogger(ProductController.class);
@@ -227,7 +227,7 @@ Roadmap
 
 1. Tambahkan anotasi `@EnableCaching` pada root/main Class Application Spring Boot
 
-    ```
+    ```java
     @SpringBootApplication
     @EnableCaching
     public class DemoApplication {
@@ -242,7 +242,7 @@ Roadmap
 
 1. Tambahkan `@Cacheable("products")` pada salah satu method class ProductService
 
-    ```
+    ```java
     @Cacheable("products")
 	public Product findProductByCode(String code) {
 		LOG.info("### Call service product by name {}", name);
@@ -252,7 +252,7 @@ Roadmap
     
 2. Tambahkan `@Cacheable(cacheNames="products", key = "#code")` pada salah satu method class ProductService
 
-    ```
+    ```java
     @Cacheable(cacheNames = "products", key = "#code")
 	public Product findProductByCode(String code) {
 		LOG.info("### Call service product by code {}", code);
@@ -262,7 +262,7 @@ Roadmap
 
 3. Tambahkan `@Cacheable(cacheNames = "products", key = "#code", condition = "#code!='p001'")` pada salah satu method class ProductService
 
-    ```
+    ```java
     @Cacheable(cacheNames = "products", key = "#code", condition = "#code!='p001'")
 	public Product findProductByCode(String code) {
 		LOG.info("### Call service product by code {}", code);
@@ -272,7 +272,7 @@ Roadmap
 
 4. Tambahkan `@Cacheable(cacheNames = "products", key = "#name", unless = "#result.code == 'p001'")` pada salah satu method class ProductService
 
-    ```
+    ```java
     @Cacheable(cacheNames = "products", key = "#name", unless = "#result.code == 'p001'")
 	public Product findProductByName(String name) {
 		LOG.info("### Call service product by name {}", name);
@@ -285,7 +285,7 @@ Roadmap
 * Tambahkan anotasi pada salah satu service berikut
 
 
-    ```
+    ```java
     @CachePut(cacheNames="products", key = "#name")
 	public Product updateProduct(String id, String name) {
 		LOG.info("### Call service put product id {}, name {}", id, name);
@@ -301,7 +301,7 @@ Roadmap
 * Tambahkan anotasi pada salah satu service berikut
 
 
-    ```
+    ```java
     @CacheEvict(cacheNames="products", key = "#name")
 	public void deleteProduct(String name) {
 		LOG.info("### Call service evict product name {}", name);
@@ -311,7 +311,7 @@ Roadmap
 * Untuk semua cache, penggunaan `@CacheEvict` dengan mengaktifkan parameter `allEntries=true` 
 
 
-    ```
+    ```java
     @CacheEvict(cacheNames="products", allEntries = true)
 	public void deleteProduct(String name) {
 		LOG.info("### Call service evict product name {}", name);
@@ -322,7 +322,7 @@ Roadmap
 
 * Before
     
-    ```
+    ```java
     @Service
     public class ProductService {
         ...
@@ -332,7 +332,7 @@ Roadmap
 
 * After
 
-    ```
+    ```java
     @Service
     @CacheConfig(cacheNames = "products")
     public class ProductService {
@@ -343,7 +343,7 @@ Roadmap
 
 * Hapus semua cacheNames yang didaaftarkan pada class method:
 
-    ```
+    ```java
     cacheNames="products"
     ```
     
@@ -375,7 +375,7 @@ Mencoba salah satu Provider Spring Cache : [https://memorynotfound.com/spring-bo
 1. Menambahkan maven dependency pada `pom.xml`
 
 
-    ```
+    ```java
     <dependency>
         <groupId>com.hazelcast</groupId>
         <artifactId>hazelcast-spring</artifactId>
@@ -389,7 +389,7 @@ Mencoba salah satu Provider Spring Cache : [https://memorynotfound.com/spring-bo
     ```
 2. Membuat configurasi class Hazelcast
 
-    ```
+    ```java
     @Configuration
     public class HazelcastConfig {
         @Bean
@@ -415,13 +415,13 @@ Mencoba salah satu Provider Spring Cache : [https://memorynotfound.com/spring-bo
 
 3. Init `CacheManager` pada Controller
 
-    ```
+    ```java
     @Autowired private CacheManager cacheManager;
     ```
 
 4. Contoh test penggunaan cache yang telah di provide dengan hazelcast
 
-    ```
+    ```java
     @GetMapping("/getByName/{name}")
 	public Product getDataProductByName(@PathVariable String name) {
 		...
@@ -438,4 +438,4 @@ Mencoba salah satu Provider Spring Cache : [https://memorynotfound.com/spring-bo
     }
     ```
     
-### FINISH ###
+#### Selamat Mencoba... ####
